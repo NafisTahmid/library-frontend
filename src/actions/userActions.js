@@ -250,33 +250,30 @@ export const createUser = () => async (dispatch, getState) => {
     };
 };
 
-export const updateUser = (user) => async (dispatch, getState) => {
+
+export const updateUser = (user) => async(dispatch, getState) => {
     try {
         dispatch({
             type: USER_UPDATE_REQUEST
-        })
+        });
 
         const {
             userLogin: { userInfo }
-        } = getState()
+        } = getState();
 
         const config = {
             headers: {
                 'Content-type': 'application/json',
                 'Authorization': `Bearer ${userInfo.token}`
             }
-        }
+        };
 
         const { data } = await axios.put(`/api/users/update/${user._id}/`, user, config);
-        dispatch({
-            type: USER_UPDATE_SUCCESS,
-            
-        })
 
         dispatch({
-            type: USER_DETAILS_SUCCESS,
+            type: USER_UPDATE_SUCCESS,
             payload: data
-        })
+        });
 
     } catch(error) {
         dispatch({
@@ -284,10 +281,9 @@ export const updateUser = (user) => async (dispatch, getState) => {
             payload: error.response && error.response.data.detail
             ? error.response.data.detail
             : error.message
-        })
+        });
     }
-}
-
+};
 export const deleteUser = (id) => async (dispatch, getState) => {
     try {
         dispatch({

@@ -17,7 +17,7 @@ function Header() {
          <Navbar expand="lg" variant="dark" className="bg-dark" collapseOnSelect>
             <Container>
                 <LinkContainer to="/">
-                  <Navbar.Brand>Beet Shop</Navbar.Brand>
+                  <Navbar.Brand>Accelx Library</Navbar.Brand>
                 </LinkContainer>
                 <Navbar.Toggle aria-controls="navbarScroll" />
                 <Navbar.Collapse id="navbarScroll">
@@ -36,6 +36,9 @@ function Header() {
                             <LinkContainer to='/profile'>
                               <NavDropdown.Item>Profile</NavDropdown.Item>
                             </LinkContainer>
+                            <LinkContainer to='/wishList'>
+                              <NavDropdown.Item>Request a Book</NavDropdown.Item>
+                            </LinkContainer>
                             { userInfo.isAdmin  && (
                               <div>
                                   <LinkContainer to="/admin/usersList/">
@@ -46,6 +49,9 @@ function Header() {
                                   </LinkContainer>
                                   <LinkContainer to="/admin/ordersList/">
                                     <NavDropdown.Item>Orders List</NavDropdown.Item>
+                                  </LinkContainer>
+                                  <LinkContainer to="/admin/wishLists/">
+                                    <NavDropdown.Item>Wish List</NavDropdown.Item>
                                   </LinkContainer>
                               </div>
                              
