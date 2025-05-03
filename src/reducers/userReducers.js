@@ -29,7 +29,12 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL,
-    USER_UPDATE_RESET
+    USER_UPDATE_RESET,
+
+    USER_CREATE_REQUEST,
+    USER_CREATE_SUCCESS,
+    USER_CREATE_FAIL,
+    USER_CREATE_RESET
  } from '../constants/userConstants';
 
  export const userLoginReducer = (state = {}, action) => {
@@ -88,6 +93,25 @@ export const userDetailsReducer = (state = { user: {}}, action) => {
             return state;
     }
 }
+
+export const userCreateReducer = (state={ }, action) => {
+    switch(action.type) {
+        case USER_CREATE_REQUEST:
+            return { loading:true };
+
+        case USER_CREATE_SUCCESS:
+            return { loading:false, success:true,  user:action.payload };
+        
+        case USER_CREATE_FAIL:
+            return { loading:false, success:false, error:action.payload };
+
+        case USER_CREATE_RESET:
+            return { };
+
+       default:
+        return state;
+    };
+};
 
 export const userUpdateProfileReducer = (state = {}, action) => {
     switch(action.type) {

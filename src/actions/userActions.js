@@ -30,7 +30,12 @@ import {
     USER_UPDATE_REQUEST,
     USER_UPDATE_SUCCESS,
     USER_UPDATE_FAIL,
-    USER_UPDATE_RESET
+    USER_UPDATE_RESET,
+
+    USER_CREATE_REQUEST,
+    USER_CREATE_SUCCESS,
+    USER_CREATE_FAIL,
+    USER_CREATE_RESET
  } from '../constants/userConstants';
 
  import { ORDER_LIST_MY_RESET } from '../constants/orderConstants';
@@ -214,6 +219,35 @@ export const listUsers = () => async (dispatch, getState) => {
             : error.message
         })
     }
+};
+
+export const createUser = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_CREATE_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+        const config = {
+            headers: {
+                'Content-type': "application/json",
+                'Authorization': `Bearer ${userInfo.token}`
+            }
+        };
+        const { data } = await axios.post('/api/users/create/', {}, config);
+        dispatch({
+            type: USER_CREATE_SUCCESS,
+            payload: data
+        })
+
+    } catch(error) {
+        dispatch({
+            type: USER_CREATE_FAIL,
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail
+                : error.message
+        });
+    };
 };
 
 export const updateUser = (user) => async (dispatch, getState) => {

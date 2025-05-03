@@ -4,27 +4,51 @@ import { Table, Row, Col, Button } from 'react-bootstrap';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { listUsers, deleteUser } from '../actions/userActions';
+import { listUsers, deleteUser, createUser } from '../actions/userActions';
 import { useNavigate } from 'react-router-dom';
-
+import { USER_CREATE_RESET } from '../constants/userConstants';
 function UserListScreen() {
   const dispatch = useDispatch();
   const userList = useSelector(state => state.usersList);
   const userLogin = useSelector(state => state.userLogin);
   const userDelete = useSelector(state => state.userDelete);
+  const userCreate = useSelector(state => state.userCreate);
   const { success:deleteSuccess } = userDelete;
+  const { loading:loadingCreate,  error:errorCreate, success:createSuccess, user:createdUser} = userCreate;
   const { userInfo } = userLogin;
   const { loading, error, users } = userList;
   const navigate = useNavigate();
 
 
-  useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-        dispatch(listUsers());
-    } else {
-        navigate('/login');
+
+
+//   useEffect(() => {
+//     if (userInfo && userInfo.isAdmin) {
+//         dispatch(listUsers());
+//     } else {
+//         navigate('/login');
+//     }
+//   },[dispatch, navigate, deleteSuccess])
+
+useEffect(() => {
+    dispatch({ type: USER_CREATE_RESET });
+    
+    if (!userInfo || !userInfo.isAdmin) {
+      navigate('/login');
+      return;
     }
-  },[dispatch, navigate, deleteSuccess])
+
+    if (createSuccess && createdUser) {
+      navigate(`/admin/user/${createdUser._id}/edit`);
+    } else {
+      dispatch(listUsers());
+    }
+  }, [dispatch, navigate, userInfo, deleteSuccess, createSuccess, createdUser]);
+
+  const createUserHandler = () => {
+    dispatch(createUser());
+  };
+
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure you want to delete this user')) {
@@ -34,7 +58,18 @@ function UserListScreen() {
 
   return (
     <div>
-        <h1>Users</h1>
+        {loadingCreate && <Loader/>}
+        {errorCreate && <Message variant="danger">{errorCreate}</Message>}
+         <Row className="align-items-center">
+                <Col>
+                  <h1>Users</h1>
+                </Col>
+                <Col className="text-end">
+                  <Button className="btn-sm my-3" onClick={createUserHandler}>
+                    <i className="fas fa-plus"></i> Create User
+                  </Button>
+                </Col>
+              </Row>
           {
         loading ? (<Loader/>)
         : error ? (<Message variant="danger">{error}</Message>)
