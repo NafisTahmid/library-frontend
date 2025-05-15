@@ -40,13 +40,12 @@ function ProductScreen( ) {
  }
 
  const submitHandler = (e) => {
-    e.preventDefault();
-    dispatch(createReview(
-      id,
-      rating,
-      comment
-    ))
- };
+  e.preventDefault();
+  dispatch(createReview({
+    rating: Number(rating),  // Ensure rating is a number
+    comment
+  }, id));
+};
 
   return (
     <div>
@@ -163,14 +162,14 @@ function ProductScreen( ) {
                                               <Form.Control
                                                 as="select"
                                                 value={rating}
-                                                onChange = {(e) => setRating(e.target.value)}
+                                                onChange={(e) => setRating(e.target.value)}
                                               >
-                                                <option>Select...</option>
-                                                <option value="">1 - Very Bad</option>
-                                                <option value="">2 - Bad</option>
-                                                <option value="">3 - Good</option>
-                                                <option value="">4 - Very Good</option>
-                                                <option value="">5 - Excellent</option>
+                                                <option value="">Select...</option>
+                                                <option value="1">1 - Very Bad</option>
+                                                <option value="2">2 - Bad</option>
+                                                <option value="3">3 - Good</option>
+                                                <option value="4">4 - Very Good</option>
+                                                <option value="5">5 - Excellent</option>
                                               </Form.Control>
                                           </Form.Group>
                                           <Form.Group controlId="comment">

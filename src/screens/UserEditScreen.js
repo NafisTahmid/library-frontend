@@ -14,6 +14,7 @@ import { USER_UPDATE_RESET } from '../constants/userConstants';
 function UserEditScreen() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const dispatch = useDispatch();
   const userDetails = useSelector(state => state.userDetails);
@@ -38,7 +39,7 @@ function UserEditScreen() {
             setIsAdmin(user.isAdmin);
         }
     }
-  },[dispatch, id, user]);
+  },[dispatch, id, user, navigate]);
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -46,6 +47,7 @@ function UserEditScreen() {
         '_id':user._id,
         'first_name':name,
         'email':email,
+        'password':password,
         'isAdmin':isAdmin
     }));
   };
@@ -81,6 +83,17 @@ function UserEditScreen() {
                                     placeholder = "Please enter email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
+                                >
+
+                                </Form.Control>
+                            </Form.Group>
+                            <Form.Group controlId="password">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control
+                                    type="password"
+                                    placeholder = "Please enter password"
+                                    value = {password}
+                                    onChange = {(e) => setPassword(e.target.value)}
                                 >
 
                                 </Form.Control>
