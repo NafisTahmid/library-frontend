@@ -22,14 +22,6 @@ A full-stack library management web application developed using **React.js** (fr
 
 You can find the backend source code [here](https://github.com/NafisTahmid/library-backend.git)
 
----
-
-## 📸 Screenshots
-
-*(Add screenshots here if available to showcase the UI)*
-
----
-
 ## 🧑‍💻 Developed by
 
 [Nafis Tahmid](https://github.com/NafisTahmid)
